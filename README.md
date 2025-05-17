@@ -1,85 +1,51 @@
-Litecoin Core integration/staging tree
-=====================================
+Zelo Core – Powering the Future of Digital Finance
+==================================================
 
-[![Build Status](https://travis-ci.org/litecoin-project/litecoin.svg?branch=master)](https://travis-ci.org/litecoin-project/litecoin)
+[![Build Status](https://travis-ci.org/zelo-project/zelo.svg?branch=main)](https://travis-ci.org/zelo-project/zelo)
 
-https://litecoin.org
+🌐 https://zelo.org
 
-What is Litecoin?
-----------------
+What is Zelo?
+-------------
 
-Litecoin is an experimental digital currency that enables instant payments to
-anyone, anywhere in the world. Litecoin uses peer-to-peer technology to operate
-with no central authority: managing transactions and issuing money are carried
-out collectively by the network. Litecoin Core is the name of open source
-software which enables the use of this currency.
+**Zelo** is a next-generation, decentralized digital currency engineered for speed, scalability, and intelligence. Built on proven cryptographic foundations, Zelo enables anyone, anywhere to send and receive value instantly — without banks, borders, or bottlenecks.
 
-For more information, as well as an immediately useable, binary version of
-the Litecoin Core software, see [https://litecoin.org](https://litecoin.org).
+Zelo operates on a peer-to-peer blockchain network, with no central authority. Transactions and coin issuance are governed transparently by the community through distributed consensus. Zelo Core is the official reference implementation of the protocol.
+
+💡 Zelo goes beyond traditional cryptocurrencies by integrating intelligent automation and adaptive consensus tuning, making it one of the world’s first **AI-assisted blockchain protocols**.
+
+Ready to dive in? Download the latest binaries at [zelo.org](https://zelo.org).
 
 License
 -------
 
-Litecoin Core is released under the terms of the MIT license. See [COPYING](COPYING) for more
-information or see https://opensource.org/licenses/MIT.
+Zelo Core is released under the open-source MIT License.  
+See [COPYING](COPYING) or [opensource.org/licenses/MIT](https://opensource.org/licenses/MIT) for more details.
 
-Development Process
--------------------
+Development Workflow
+--------------------
 
-The `master` branch is regularly built (see `doc/build-*.md` for instructions) and tested, but it is not guaranteed to be
-completely stable. [Tags](https://github.com/litecoin-project/litecoin/tags) are created
-regularly from release branches to indicate new official, stable release versions of Litecoin Core.
+The `main` branch is under active development and regularly updated. It’s suitable for developers and testers but may not always be fully stable. Stable releases are published and tagged from release branches.
 
-The https://github.com/litecoin-project/gui repository is used exclusively for the
-development of the GUI. Its master branch is identical in all monotree
-repositories. Release branches and tags do not exist, so please do not fork
-that repository unless it is for development reasons.
+Zelo's graphical user interface (GUI) is developed in a separate repo:
+🔗 [https://github.com/zelo-project/zelo-gui](https://github.com/zelo-project/zelo-gui)
 
-The contribution workflow is described in [CONTRIBUTING.md](CONTRIBUTING.md)
-and useful hints for developers can be found in [doc/developer-notes.md](doc/developer-notes.md).
+Please refer to [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines on submitting patches or proposing changes.  
+Developer insights and notes are located in [doc/developer-notes.md](doc/developer-notes.md).
 
-The developer [mailing list](https://groups.google.com/forum/#!forum/litecoin-dev)
-should be used to discuss complicated or controversial changes before working
-on a patch set.
+🧠 For design discussions or complex proposals, please post to the [Zelo developer mailing list](https://groups.google.com/forum/#!forum/zelo-dev).  
+.
 
-Developer IRC can be found on Freenode at #litecoin-dev.
+Testing and Quality Assurance
+-----------------------------
 
-Testing
--------
+All code changes must go through a rigorous process of testing and peer review. We prioritize security, performance, and network stability — especially since Zelo is a protocol trusted to handle real economic value.
 
-Testing and code review is the bottleneck for development; we get more pull
-requests than we can review and test on short notice. Please be patient and help out by testing
-other people's pull requests, and remember this is a security-critical project where any mistake might cost people
-lots of money.
+Please help us by reviewing open pull requests, reporting bugs, or testing new releases.
 
 ### Automated Testing
 
-Developers are strongly encouraged to write [unit tests](src/test/README.md) for new code, and to
-submit new unit tests for old code. Unit tests can be compiled and run
-(assuming they weren't disabled in configure) with: `make check`. Further details on running
-and extending unit tests can be found in [/src/test/README.md](/src/test/README.md).
+Unit tests are encouraged for all new features. If enabled during configuration, you can run them with:
 
-There are also [regression and integration tests](/test), written
-in Python, that are run automatically on the build server.
-These tests can be run (if the [test dependencies](/test) are installed) with: `test/functional/test_runner.py`
-
-The Travis CI system makes sure that every pull request is built for Windows, Linux, and macOS, and that unit/sanity tests are run automatically.
-
-### Manual Quality Assurance (QA) Testing
-
-Changes should be tested by somebody other than the developer who wrote the
-code. This is especially important for large or high-risk changes. It is useful
-to add a test plan to the pull request description if testing the changes is
-not straightforward.
-
-Translations
-------------
-
-We only accept translation fixes that are submitted through [Bitcoin Core's Transifex page](https://www.transifex.com/projects/p/bitcoin/).
-Translations are converted to Litecoin periodically.
-
-Translations are periodically pulled from Transifex and merged into the git repository. See the
-[translation process](doc/translation_process.md) for details on how this works.
-
-**Important**: We do not accept translation changes as GitHub pull requests because the next
-pull from Transifex would automatically overwrite them again.
+```bash
+make check
