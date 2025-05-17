@@ -11,7 +11,7 @@ import subprocess
 import textwrap
 
 from test_framework.test_framework import BitcoinTestFramework
-from test_framework.util import assert_equal
+from test_framework.util import assert_equal, assert_raises_rpc_error
 
 BUFFER_SIZE = 16 * 1024
 
@@ -27,7 +27,7 @@ class ToolWalletTest(BitcoinTestFramework):
         self.skip_if_no_wallet_tool()
 
     def bitcoin_wallet_process(self, *args):
-        binary = self.config["environment"]["BUILDDIR"] + '/src/litecoin-wallet' + self.config["environment"]["EXEEXT"]
+        binary = self.config["environment"]["BUILDDIR"] + '/src/zlo-wallet' + self.config["environment"]["EXEEXT"]
         args = ['-datadir={}'.format(self.nodes[0].datadir), '-chain=%s' % self.chain] + list(args)
         return subprocess.Popen([binary] + args, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
 
@@ -255,6 +255,18 @@ class ToolWalletTest(BitcoinTestFramework):
 
         self.assert_tool_output('', '-wallet=salvage', 'salvage')
 
+    def test_import_p2sh(self):
+        # Test importing a P2SH-P2WPKH address
+        address = self.nodes[0].getnewaddress("", "p2sh-segwit")
+        key = self.nodes[0].dumpprivkey(address)
+        self.log.info("Should import a p2sh")
+        assert_raises_rpc_error(-5, "Invalid Zelo address or script", self.nodes[0].importmulti, [{
+            "scriptPubKey": {
+                "address": address
+            },
+            "timestamp": "now",
+        }])
+
     def run_test(self):
         self.wallet_path = os.path.join(self.nodes[0].datadir, self.chain, 'wallets', self.default_wallet_name, self.wallet_data_filename)
         self.test_invalid_tool_commands_and_args()
@@ -267,6 +279,7 @@ class ToolWalletTest(BitcoinTestFramework):
             self.test_getwalletinfo_on_different_wallet()
             # Salvage is a legacy wallet only thing
             self.test_salvage()
+            self.test_import_p2sh()
 
 if __name__ == '__main__':
     ToolWalletTest().main()

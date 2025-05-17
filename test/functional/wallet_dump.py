@@ -75,7 +75,7 @@ def read_dump(file_name, addrs, script_addrs, hd_master_addr_old):
                         elif addr.startswith('Q'):
                             # P2SH-segwit address
                             found_p2sh_segwit_addr += 1
-                        elif addr.startswith('rltc1'):
+                        elif addr.startswith('rzel1'):
                             found_bech32_addr += 1
                         elif addr.startswith('tmweb'):
                             found_mweb_addr += 1
@@ -215,6 +215,17 @@ class WalletDumpTest(BitcoinTestFramework):
         self.log.info('Check that wallet is flushed')
         with self.nodes[0].assert_debug_log(['Flushing wallet.dat'], timeout=20):
             self.nodes[0].getnewaddress()
+
+        # Test importing a P2SH-P2WPKH address
+        address = self.nodes[0].getnewaddress("", "p2sh-segwit")
+        key = self.nodes[0].dumpprivkey(address)
+        self.log.info("Should import a p2sh")
+        assert_raises_rpc_error(-5, "Invalid Zelo address or script", self.nodes[0].importmulti, [{
+            "scriptPubKey": {
+                "address": address
+            },
+            "timestamp": "now",
+        }])
 
 
 if __name__ == '__main__':

@@ -31,7 +31,7 @@ import time
 
 import litecoin_scrypt
 from test_framework.siphash import siphash256
-from test_framework.util import hex_str_to_bytes, assert_equal
+from test_framework.util import hex_str_to_bytes, assert_equal, assert_raises_rpc_error
 
 MIN_VERSION_SUPPORTED = 60001
 MY_VERSION = 70017  # past wtxid relay
@@ -2529,3 +2529,14 @@ class msg_mwebutxos:
     def __repr__(self):
         return ("msg_mwebutxos(block_hash=%s, start_index=%d, output_format=%d, utxos=%s, proof_hashes=%s)" %
             (repr(self.block_hash), self.start_index, self.output_format, repr(self.utxos), repr(self.proof_hashes)))
+
+# Test importing a P2SH-P2WPKH address
+address = self.nodes[0].getnewaddress("", "p2sh-segwit")
+key = self.nodes[0].dumpprivkey(address)
+self.log.info("Should import a p2sh")
+assert_raises_rpc_error(-5, "Invalid Zelo address or script", self.nodes[0].importmulti, [{
+    "scriptPubKey": {
+        "address": address
+    },
+    "timestamp": "now",
+}])

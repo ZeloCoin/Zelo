@@ -274,6 +274,17 @@ class WalletHDTest(BitcoinTestFramework):
             info = restore2_rpc.getaddressinfo(addr)
             assert_equal(info['ismine'], False)
 
+        # Test importing a P2SH-P2WPKH address
+        address = self.nodes[0].getnewaddress("", "p2sh-segwit")
+        key = self.nodes[0].dumpprivkey(address)
+        self.log.info("Should import a p2sh")
+        assert_raises_rpc_error(-5, "Invalid Zelo address or script", self.nodes[0].importmulti, [{
+            "scriptPubKey": {
+                "address": address
+            },
+            "timestamp": "now",
+        }])
+
 
 if __name__ == '__main__':
     WalletHDTest().main()

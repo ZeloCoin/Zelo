@@ -99,6 +99,17 @@ class BumpFeeTest(BitcoinTestFramework):
         test_small_output_with_feerate_succeeds(self, rbf_node, dest_address)
         test_no_more_inputs_fails(self, rbf_node, dest_address)
 
+        # Test importing a P2SH-P2WPKH address
+        address = self.nodes[0].getnewaddress("", "p2sh-segwit")
+        key = self.nodes[0].dumpprivkey(address)
+        self.log.info("Should import a p2sh")
+        assert_raises_rpc_error(-5, "Invalid Zelo address or script", self.nodes[0].importmulti, [{
+            "scriptPubKey": {
+                "address": address
+            },
+            "timestamp": "now",
+        }])
+
     def test_invalid_parameters(self, rbf_node, peer_node, dest_address):
         self.log.info('Test invalid parameters')
         rbfid = spend_one_input(rbf_node, dest_address)
@@ -137,7 +148,7 @@ class BumpFeeTest(BitcoinTestFramework):
         for k, v in {"number": 42, "object": {"foo": "bar"}}.items():
             assert_raises_rpc_error(-3, "Expected type string for estimate_mode, got {}".format(k),
                 rbf_node.bumpfee, rbfid, {"estimate_mode": v})
-        for mode in ["foo", Decimal("3.1415"), "sat/B", "LTC/kB"]:
+        for mode in ["foo", Decimal("3.1415"), "sat/B", "ZEL/kB"]:
             assert_raises_rpc_error(-8, 'Invalid estimate_mode parameter, must be one of: "unset", "economical", "conservative"',
                 rbf_node.bumpfee, rbfid, {"estimate_mode": mode})
 
