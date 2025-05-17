@@ -34,7 +34,7 @@ Please refer to [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines on submitting 
 Developer insights and notes are located in [doc/developer-notes.md](doc/developer-notes.md).
 
 🧠 For design discussions or complex proposals, please post to the [Zelo developer mailing list](https://groups.google.com/forum/#!forum/zelo-dev).  
-💬 Community chat is available on IRC at `#zelo-dev`.
+.
 
 Testing and Quality Assurance
 -----------------------------
