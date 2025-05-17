@@ -559,7 +559,7 @@ class SegWitTest(BitcoinTestFramework):
             # 'non-mandatory-script-verify-flag (Witness program was passed an
             # empty witness)' (otherwise).
             # TODO: support multiple acceptable reject reasons.
-            # Zelo: BTC applied these rules for all transactions once P2SH is enabled, on ZEL we enforce
+            # Zxlo: BTC applied these rules for all transactions once P2SH is enabled, on ZXL we enforce
             # these rules only when segwit was activated
             # test_witness_block(self.nodes[0], self.test_node, block, accepted=False, with_witness=False)
 

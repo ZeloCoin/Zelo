@@ -159,7 +159,8 @@ FUZZ_TARGETS = \
   test/fuzz/txundo_deserialize \
   test/fuzz/uint160_deserialize \
   test/fuzz/uint256_deserialize \
-  test/fuzz/versionbits
+  test/fuzz/versionbits \
+  test/randomx_tests.cpp
 
 if ENABLE_FUZZ
 noinst_PROGRAMS += $(FUZZ_TARGETS:=)
@@ -230,7 +231,6 @@ BITCOIN_TESTS =\
   test/checkqueue_tests.cpp \
   test/coins_tests.cpp \
   test/compilerbug_tests.cpp \
-  test/compress_tests.cpp \
   test/crypto_tests.cpp \
   test/cuckoocache_tests.cpp \
   test/denialofservice_tests.cpp \
@@ -268,7 +268,6 @@ BITCOIN_TESTS =\
   test/script_tests.cpp \
   test/script_standard_tests.cpp \
   test/scriptnum_tests.cpp \
-  test/scrypt_tests.cpp \
   test/serialize_tests.cpp \
   test/settings_tests.cpp \
   test/sighash_tests.cpp \
@@ -1308,6 +1307,12 @@ test_fuzz_versionbits_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
 test_fuzz_versionbits_LDADD = $(FUZZ_SUITE_LD_COMMON)
 test_fuzz_versionbits_LDFLAGS = $(FUZZ_SUITE_LDFLAGS_COMMON)
 test_fuzz_versionbits_SOURCES = test/fuzz/versionbits.cpp
+
+test_fuzz_randomx_tests_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
+test_fuzz_randomx_tests_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
+test_fuzz_randomx_tests_LDADD = $(FUZZ_SUITE_LD_COMMON)
+test_fuzz_randomx_tests_LDFLAGS = $(FUZZ_SUITE_LDFLAGS_COMMON)
+test_fuzz_randomx_tests_SOURCES = test/fuzz/randomx_tests.cpp
 
 endif # ENABLE_FUZZ
 

@@ -366,3 +366,11 @@ endif
 if TARGET_LINUX
 	$(AM_V_at) $(PYTHON) $(top_srcdir)/contrib/devtools/test-security-check.py TestSecurityChecks.test_ELF
 endif
+
+# RandomX
+RANDOMX_CPPFLAGS = -I$(srcdir)/src/randomx
+RANDOMX_LIBS = -lrandomx
+
+# Add RandomX to the build
+AM_CPPFLAGS += $(RANDOMX_CPPFLAGS)
+LIBS += $(RANDOMX_LIBS)

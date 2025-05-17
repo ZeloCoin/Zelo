@@ -22,7 +22,7 @@ const unsigned int WALLET_CRYPTO_IV_SIZE = 16;
  * derived using derivation method nDerivationMethod
  * (0 == EVP_sha512()) and derivation iterations nDeriveIterations.
  * vchOtherDerivationParameters is provided for alternative algorithms
- * which may require more parameters (such as scrypt).
+ * which may require more parameters.
  *
  * Wallet Private Keys are then encrypted using AES-256-CBC
  * with the double-sha256 of the public key as the IV, and the
@@ -36,11 +36,9 @@ public:
     std::vector<unsigned char> vchCryptedKey;
     std::vector<unsigned char> vchSalt;
     //! 0 = EVP_sha512()
-    //! 1 = scrypt()
     unsigned int nDerivationMethod;
     unsigned int nDeriveIterations;
-    //! Use this for more parameters to key derivation,
-    //! such as the various parameters to scrypt
+    //! Use this for more parameters to key derivation
     std::vector<unsigned char> vchOtherDerivationParameters;
 
     SERIALIZE_METHODS(CMasterKey, obj)
@@ -65,35 +63,30 @@ namespace wallet_crypto_tests
     class TestCrypter;
 }
 
-/** Encryption/decryption context with key information */
+/** 
+ * Encryption/decryption context with key information
+ * which may require more parameters.
+ */
 class CCrypter
 {
 friend class wallet_crypto_tests::TestCrypter; // for test access to chKey/chIV
 private:
-    std::vector<unsigned char, secure_allocator<unsigned char>> vchKey;
-    std::vector<unsigned char, secure_allocator<unsigned char>> vchIV;
-    bool fKeySet;
+    //! 1 = AES-256-CBC
+    unsigned char chKey[WALLET_CRYPTO_KEY_SIZE];
+    unsigned char chIV[WALLET_CRYPTO_IV_SIZE];
 
-    int BytesToKeySHA512AES(const std::vector<unsigned char>& chSalt, const SecureString& strKeyData, int count, unsigned char *key,unsigned char *iv) const;
+    bool SetKeyFromPassphrase(const SecureString& strKeyData, const std::vector<unsigned char>& chSalt, const unsigned int nRounds, const unsigned int nDerivationMethod);
 
 public:
-    bool SetKeyFromPassphrase(const SecureString &strKeyData, const std::vector<unsigned char>& chSalt, const unsigned int nRounds, const unsigned int nDerivationMethod);
-    bool Encrypt(const CKeyingMaterial& vchPlaintext, std::vector<unsigned char> &vchCiphertext) const;
-    bool Decrypt(const std::vector<unsigned char>& vchCiphertext, CKeyingMaterial& vchPlaintext) const;
-    bool SetKey(const CKeyingMaterial& chNewKey, const std::vector<unsigned char>& chNewIV);
-
-    void CleanKey()
-    {
-        memory_cleanse(vchKey.data(), vchKey.size());
-        memory_cleanse(vchIV.data(), vchIV.size());
-        fKeySet = false;
-    }
+    bool Encrypt(const CKeyingMaterial& vchPlaintext, std::vector<unsigned char> &vchCiphertext);
+    bool Decrypt(const std::vector<unsigned char>& vchCiphertext, CKeyingMaterial& vchPlaintext);
+    bool SetKeyFromPassphrase(const SecureString& strKeyData, const std::vector<unsigned char>& chSalt, const unsigned int nRounds, const unsigned int nDerivationMethod);
+    void CleanKey();
 
     CCrypter()
     {
-        fKeySet = false;
-        vchKey.resize(WALLET_CRYPTO_KEY_SIZE);
-        vchIV.resize(WALLET_CRYPTO_IV_SIZE);
+        memset(chKey, 0, sizeof(chKey));
+        memset(chIV, 0, sizeof(chIV));
     }
 
     ~CCrypter()

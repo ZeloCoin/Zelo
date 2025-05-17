@@ -89,6 +89,8 @@
 #include <crypto/scrypt.h>
 #endif
 
+#include <crypto/randomx.h>
+
 static bool fFeeEstimatesInitialized = false;
 static const bool DEFAULT_PROXYRANDOMIZE = true;
 static const bool DEFAULT_REST_ENABLE = false;
@@ -321,6 +323,9 @@ void Shutdown(NodeContext& node)
 
     node.args = nullptr;
     LogPrintf("%s: done\n", __func__);
+
+    // Clean up RandomX
+    randomx_cleanup();
 }
 
 /**
@@ -1388,11 +1393,6 @@ bool AppInitMain(const util::Ref& context, NodeContext& node, interfaces::BlockA
             return InitError(_("Unable to start HTTP server. See debug log for details."));
     }
     
-#if defined(USE_SSE2)
-    std::string sse2detect = scrypt_detect_sse2();
-    LogPrintf("%s\n", sse2detect);
-#endif
-
     // ********************************************************* Step 5: verify wallet database integrity
     for (const auto& client : node.chain_clients) {
         if (!client->verify()) {
@@ -2047,6 +2047,13 @@ bool AppInitMain(const util::Ref& context, NodeContext& node, interfaces::BlockA
 #if HAVE_SYSTEM
     StartupNotify(args);
 #endif
+
+    // Initialize RandomX
+    try {
+        randomx_init();
+    } catch (const std::runtime_error& e) {
+        return InitError(strprintf("Failed to initialize RandomX: %s", e.what()));
+    }
 
     return true;
 }

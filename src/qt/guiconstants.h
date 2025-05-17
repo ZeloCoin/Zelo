@@ -42,12 +42,12 @@ static const int TOOLTIP_WRAP_THRESHOLD = 80;
 /* Number of frames in spinner animation */
 #define SPINNER_FRAMES 36
 
-#define QAPP_ORG_NAME "Zelo"
-#define QAPP_ORG_DOMAIN "zelo.org"
-#define QAPP_APP_NAME_DEFAULT "Zelo-Qt"
-#define QAPP_APP_NAME_TESTNET "Zelo-Qt-testnet"
-#define QAPP_APP_NAME_SIGNET "Zelo-Qt-signet"
-#define QAPP_APP_NAME_REGTEST "Zelo-Qt-regtest"
+#define QAPP_ORG_NAME "Zxlo"
+#define QAPP_ORG_DOMAIN "zxloproject.org"
+#define QAPP_APP_NAME_DEFAULT "Zxlo-Qt"
+#define QAPP_APP_NAME_TESTNET "Zxlo-Qt-testnet"
+#define QAPP_APP_NAME_SIGNET "Zxlo-Qt-signet"
+#define QAPP_APP_NAME_REGTEST "Zxlo-Qt-regtest"
 
 /* One gigabyte (GB) in bytes */
 static constexpr uint64_t GB_BYTES{1000000000};

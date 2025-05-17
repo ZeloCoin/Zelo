@@ -63,6 +63,11 @@ LIBBITCOIN_CRYPTO_SHANI = crypto/libbitcoin_crypto_shani.a
 LIBBITCOIN_CRYPTO += $(LIBBITCOIN_CRYPTO_SHANI)
 endif
 
+# RandomX
+crypto_libbitcoin_crypto_a_SOURCES += \
+  crypto/randomx.cpp \
+  crypto/randomx.h
+
 $(LIBSECP256K1): $(wildcard secp256k1-zkp/src/*.h) $(wildcard secp256k1-zkp/src/*.c) $(wildcard secp256k1-zkp/include/*)
 	$(AM_V_at)$(MAKE) $(AM_MAKEFLAGS) -C $(@D) $(@F)
 
@@ -474,9 +479,6 @@ crypto_libbitcoin_crypto_base_a_SOURCES = \
   crypto/poly1305.cpp \
   crypto/ripemd160.cpp \
   crypto/ripemd160.h \
-  crypto/scrypt.cpp \
-  crypto/scrypt-sse2.cpp \
-  crypto/scrypt.h \
   crypto/sha1.cpp \
   crypto/sha1.h \
   crypto/sha256.cpp \

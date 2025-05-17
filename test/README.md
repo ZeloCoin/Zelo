@@ -1,4 +1,4 @@
-This directory contains integration tests that test zelod and its
+This directory contains integration tests that test zxlod and its
 utilities in their entirety. It does not contain unit tests, which
 can be found in [/src/test](/src/test), [/src/wallet/test](/src/wallet/test),
 etc.
@@ -6,10 +6,10 @@ etc.
 This directory contains the following sets of tests:
 
 - [functional](/test/functional) which tests the functionality of
-zelod and zelo-qt by interacting with them through the RPC and P2P
+zxlod and zxlo-qt by interacting with them through the RPC and P2P
 interfaces.
-- [util](/test/util) which tests the zelo utilities, currently only
-zelo-tx.
+- [util](/test/util) which tests the zxlo utilities, currently only
+zxlo-tx.
 - [lint](/test/lint) which perform various static analysis checks.
 
 The util tests are run as part of `make check` target. The functional
@@ -17,7 +17,7 @@ tests and lint scripts can be run as explained in the sections below.
 
 # Running tests locally
 
-Before tests can be run locally, Zelo Core must be built.  See the [building instructions](/doc#building) for help.
+Before tests can be run locally, Zxlo Core must be built.  See the [building instructions](/doc#building) for help.
 
 ## Functional tests
 
@@ -71,29 +71,29 @@ options. Run `test_runner.py -h` to see them all.
 
 ##### Resource contention
 
-The P2P and RPC ports used by the zelod nodes-under-test are chosen to make
-conflicts with other processes unlikely. However, if there is another zelod
+The P2P and RPC ports used by the zxlod nodes-under-test are chosen to make
+conflicts with other processes unlikely. However, if there is another zxlod
 process running on the system (perhaps from a previous test which hasn't successfully
-killed all its zelod nodes), then there may be a port conflict which will
+killed all its zxlod nodes), then there may be a port conflict which will
 cause the test to fail. It is recommended that you run the tests on a system
-where no other zelod processes are running.
+where no other zxlod processes are running.
 
 On linux, the test_framework will warn if there is another
-zelod process running when the tests are started.
+zxlod process running when the tests are started.
 
-If there are zombie zelod processes after test failure, you can kill them
+If there are zombie zxlod processes after test failure, you can kill them
 by running the following commands. **Note that these commands will kill all
-zelod processes running on the system, so should not be used if any non-test
-zelod processes are being run.**
+zxlod processes running on the system, so should not be used if any non-test
+zxlod processes are being run.**
 
 ```bash
-killall zelod
+killall zxlod
 ```
 
 or
 
 ```bash
-pkill -9 zelod
+pkill -9 zxlod
 ```
 
 ##### Data directory cache
@@ -103,11 +103,11 @@ functional test is run and is stored in test/cache. This speeds up
 test startup times since new blockchains don't need to be generated for
 every test. However, the cache may get into a bad state, in which case
 tests will fail. If this happens, remove the cache directory (and make
-sure zelod processes are stopped as above):
+sure zxlod processes are stopped as above):
 
 ```bash
 rm -rf test/cache
-killall zelod
+killall zxlod
 ```
 
 ##### Test logging
@@ -174,7 +174,7 @@ test/functional/test_runner.py --perf wallet_hd.py
 ```
 
 When profiling the test_runner, the entire test suite will be run and perf will sample
-any zelod processes that appear by the test runner. The final perf profile will be
+any zxlod processes that appear by the test runner. The final perf profile will be
 written to `perf.data` in the root of the build directory. This can be analyzed with
 `perf report`:
 
@@ -187,7 +187,7 @@ See the [perf documentation](https://perf.wiki.kernel.org/index.php/Main_Page) f
 ##### Valgrind
 
 Valgrind is a tool which can help detect memory leaks and other memory problems. The test
-framework accepts a `--valgrind` flag which runs all the zelod processes under the tool. It
+framework accepts a `--valgrind` flag which runs all the zxlod processes under the tool. It
 can be combined with the flags above to get a single test or test directory:
 
 ```bash

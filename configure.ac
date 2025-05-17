@@ -1775,6 +1775,23 @@ fi
 ac_configure_args="${ac_configure_args} --disable-shared --with-pic --enable-benchmark=no --with-bignum=no --enable-module-generator --enable-module-recovery --enable-module-commitment --enable-module-bulletproof --enable-module-aggsig --enable-module-schnorrsig --enable-module-extrakeys --enable-experimental --disable-jni --disable-openssl-tests"
 AC_CONFIG_SUBDIRS([src/secp256k1-zkp])
 
+# RandomX
+AC_ARG_ENABLE([randomx],
+  [AS_HELP_STRING([--enable-randomx],
+  [enable RandomX mining support (default is yes)])],
+  [use_randomx=$enableval],
+  [use_randomx=yes])
+
+if test x$use_randomx != xno; then
+  AC_DEFINE([USE_RANDOMX], [1], [Define this symbol to build code that uses RandomX])
+  RANDOMX_CPPFLAGS="-DRANDOMX_USE_JIT"
+  RANDOMX_LIBS="-lrandomx"
+fi
+
+AM_CONDITIONAL([USE_RANDOMX], [test x$use_randomx != xno])
+AC_SUBST(RANDOMX_CPPFLAGS)
+AC_SUBST(RANDOMX_LIBS)
+
 AC_OUTPUT
 
 dnl Replace the BUILDDIR path with the correct Windows path if compiling on Native Windows
@@ -1807,7 +1824,6 @@ echo "  with bench    = $use_bench"
 echo "  with upnp     = $use_upnp"
 echo "  use asm       = $use_asm"
 echo "  sanitizers    = $use_sanitizers"
-echo "  scrypt sse2   = $use_sse2"
 echo "  debug enabled = $enable_debug"
 echo "  gprof enabled = $enable_gprof"
 echo "  werror        = $enable_werror"
